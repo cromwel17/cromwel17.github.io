@@ -5,11 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boolean Matrix Multiplication</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Push it behind other content */
+      overflow: auto;
+    }
+
+    .video-background video {
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .container {
+      position: relative;
+      z-index: 1; /* Bring content above the video */
+      color: #fff; /* Adjust text color for better contrast with the video */
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
+  <div class="video-background">
+    <video autoplay muted loop>
+      <source src="binary.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div class="container">
     <h1>Boolean Matrix Multiplication</h1>
-    <h1>PERFECT NA SANA! HUHU</h1>
     <form id="matrixForm">
       <div>
         <label for="rowsA">Rows of Matrix A (m):</label>
