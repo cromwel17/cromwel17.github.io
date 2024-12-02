@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boolean Matrix Multiplication</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Boolean Matrix Multiplication</h1>
+    <form id="matrixForm">
+      <div>
+        <label for="rowsA">Rows of Matrix A (m):</label>
+        <input type="number" id="rowsA" min="1" required>
+      </div>
+      <div>
+        <label for="colsA">Columns of Matrix A / Rows of Matrix B (k):</label>
+        <input type="number" id="colsA" min="1" required>
+      </div>
+      <div>
+        <label for="colsB">Columns of Matrix B (n):</label>
+        <input type="number" id="colsB" min="1" required>
+      </div>
+      <button type="button" id="generateMatrices">Generate Matrices</button>
+    </form>
+
+    <div id="matrixInputs"></div>
+    <button id="calculate" style="display: none;">Calculate Boolean Product</button>
+    <div id="result"></div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
