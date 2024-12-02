@@ -2,85 +2,103 @@ document.getElementById("generateMatrices").addEventListener("click", generateMa
 document.getElementById("calculate").addEventListener("click", calculateBooleanProduct);
 
 function generateMatrices() {
-  const rowsA = parseInt(document.getElementById("rowsA").value);
-  const colsA = parseInt(document.getElementById("colsA").value);
-  const colsB = parseInt(document.getElementById("colsB").value);
+  try {
+    const rowsA = parseInt(document.getElementById("rowsA").value);
+    const colsA = parseInt(document.getElementById("colsA").value);
+    const colsB = parseInt(document.getElementById("colsB").value);
 
-  if (!rowsA || !colsA || !colsB) {
-    alert("Please enter valid matrix dimensions.");
-    return;
-  }
-
-  const container = document.getElementById("matrixInputs");
-  container.innerHTML = '';
-
-  
-  const matrixA = document.createElement("div");
-  matrixA.className = "matrix";
-  matrixA.innerHTML = `<h3>Matrix A (${rowsA} x ${colsA})</h3>`;
-  for (let i = 0; i < rowsA; i++) {
-    for (let j = 0; j < colsA; j++) {
-      matrixA.innerHTML += `<input type="number" min="0" max="1" id="A-${i}-${j}" required>`;
+    if (isNaN(rowsA) || isNaN(colsA) || isNaN(colsB)) {
+      throw new Error("Matrix dimensions must be numbers.");
     }
-    matrixA.innerHTML += `<br>`;
-  }
-  container.appendChild(matrixA);
-
-  
-  const matrixB = document.createElement("div");
-  matrixB.className = "matrix";
-  matrixB.innerHTML = `<h3>Matrix B (${colsA} x ${colsB})</h3>`;
-  for (let i = 0; i < colsA; i++) {
-    for (let j = 0; j < colsB; j++) {
-      matrixB.innerHTML += `<input type="number" min="0" max="1" id="B-${i}-${j}" required>`;
+    if (rowsA <= 0 || colsA <= 0 || colsB <= 0) {
+      throw new Error("Matrix dimensions must be positive integers.");
     }
-    matrixB.innerHTML += `<br>`;
-  }
-  container.appendChild(matrixB);
 
-  document.getElementById("calculate").style.display = "block";
+    const container = document.getElementById("matrixInputs");
+    container.innerHTML = '';
+
+    // Create Matrix A
+    const matrixA = document.createElement("div");
+    matrixA.className = "matrix";
+    matrixA.innerHTML = `<h3>Matrix A (${rowsA} x ${colsA})</h3>`;
+    for (let i = 0; i < rowsA; i++) {
+      for (let j = 0; j < colsA; j++) {
+        matrixA.innerHTML += `<input type="number" min="0" max="1" id="A-${i}-${j}" required>`;
+      }
+      matrixA.innerHTML += `<br>`;
+    }
+    container.appendChild(matrixA);
+
+    // Create Matrix B
+    const matrixB = document.createElement("div");
+    matrixB.className = "matrix";
+    matrixB.innerHTML = `<h3>Matrix B (${colsA} x ${colsB})</h3>`;
+    for (let i = 0; i < colsA; i++) {
+      for (let j = 0; j < colsB; j++) {
+        matrixB.innerHTML += `<input type="number" min="0" max="1" id="B-${i}-${j}" required>`;
+      }
+      matrixB.innerHTML += `<br>`;
+    }
+    container.appendChild(matrixB);
+
+    document.getElementById("calculate").style.display = "block";
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
 function calculateBooleanProduct() {
-  const rowsA = parseInt(document.getElementById("rowsA").value);
-  const colsA = parseInt(document.getElementById("colsA").value);
-  const colsB = parseInt(document.getElementById("colsB").value);
+  try {
+    const rowsA = parseInt(document.getElementById("rowsA").value);
+    const colsA = parseInt(document.getElementById("colsA").value);
+    const colsB = parseInt(document.getElementById("colsB").value);
 
-  const A = [];
-  const B = [];
+    const A = [];
+    const B = [];
 
-  
-  for (let i = 0; i < rowsA; i++) {
-    A[i] = [];
-    for (let j = 0; j < colsA; j++) {
-      A[i][j] = parseInt(document.getElementById(`A-${i}-${j}`).value) || 0;
-    }
-  }
-
- 
-  for (let i = 0; i < colsA; i++) {
-    B[i] = [];
-    for (let j = 0; j < colsB; j++) {
-      B[i][j] = parseInt(document.getElementById(`B-${i}-${j}`).value) || 0;
-    }
-  }
-
-  
-  const C = [];
-  for (let i = 0; i < rowsA; i++) {
-    C[i] = [];
-    for (let j = 0; j < colsB; j++) {
-      C[i][j] = 0;
-      for (let k = 0; k < colsA; k++) {
-        C[i][j] = C[i][j] || (A[i][k] && B[k][j]);
+    // A
+    for (let i = 0; i < rowsA; i++) {
+      A[i] = [];
+      for (let j = 0; j < colsA; j++) {
+        const value = parseInt(document.getElementById(`A-${i}-${j}`).value);
+        if (value !== 0 && value !== 1) {
+          throw new Error("Matrix A can only contain boolean values (0 or 1).");
+        }
+        A[i][j] = value;
       }
     }
-  }
 
-  
-  const resultContainer = document.getElementById("result");
-  resultContainer.innerHTML = `<h3>Boolean Product Result (${rowsA} x ${colsB})</h3>`;
-  C.forEach(row => {
-    resultContainer.innerHTML += row.join(" ") + `<br>`;
-  });
+    // B
+    for (let i = 0; i < colsA; i++) {
+      B[i] = [];
+      for (let j = 0; j < colsB; j++) {
+        const value = parseInt(document.getElementById(`B-${i}-${j}`).value);
+        if (value !== 0 && value !== 1) {
+          throw new Error("Matrix B can only contain boolean values (0 or 1).");
+        }
+        B[i][j] = value;
+      }
+    }
+
+    // Boolean
+    const C = [];
+    for (let i = 0; i < rowsA; i++) {
+      C[i] = [];
+      for (let j = 0; j < colsB; j++) {
+        C[i][j] = 0;
+        for (let k = 0; k < colsA; k++) {
+          C[i][j] = C[i][j] || (A[i][k] && B[k][j]);
+        }
+      }
+    }
+
+    
+    const resultContainer = document.getElementById("result");
+    resultContainer.innerHTML = `<h3>Boolean Product Result (${rowsA} x ${colsB})</h3>`;
+    C.forEach(row => {
+      resultContainer.innerHTML += row.join(" ") + `<br>`;
+    });
+  } catch (error) {
+    alert(error.message);
+  }
 }
